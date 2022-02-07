@@ -26,5 +26,5 @@ app.put('api/put', (req, res) => {
 
 const PORT = process.env.port || 3000;
 app.listen(PORT,  () => {
-    console.log(`Server is running port ${POSRT}`);
+    console.log(`Server is running port ${PORT}`);
 });
