@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 
+// Routing
+const indexRouter = require('./routers/index');
+const advertisementRouter = require('./routers/advertisement')
+
 const app = express();
 
 app.use(express.json());
@@ -9,21 +13,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('/api/get/:id', (req,  res) => {
-    const {id} = req.params;
-    res.json(id);
-});
-
-app.post('/api/post', (req, res) => {
-    res.json(`Hello post ${req.params}`);
-})
-
-app.put('/api/put', (req, res) => {
-    const {id} = req.params;
-    
-    const {title} = req.body;
-    res.json(`Hello put ${id} title: ${title}`);
-})
+app.use('/', indexRouter);
+app.use('/api', advertisementRouter);
 
 const PORT = process.env.port || 3000;
 app.listen(PORT,  () => {
