@@ -9,15 +9,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('api/get', (req,  res) => {
-    res.json(`Hello get ${req.params}`);
+app.get('/api/get/:id', (req,  res) => {
+    const {id} = req.params;
+    res.json(id);
 });
 
-app.post('api/post', (req, res) => {
+app.post('/api/post', (req, res) => {
     res.json(`Hello post ${req.params}`);
 })
 
-app.put('api/put', (req, res) => {
+app.put('/api/put', (req, res) => {
     const {id} = req.params;
     
     const {title} = req.body;
