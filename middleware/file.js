@@ -13,7 +13,7 @@ const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
 const fileFilter = (require, file, cb) => {
     if (allowedTypes.includes(file.mimetype)) {
-        cb(null, false)
+        cb(null, true)
     } else {
         cb(null, false)
     }
