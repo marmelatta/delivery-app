@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+/*const {Schema, model} = require('mongoose');
 
 const advertisementSchema = new Schema({
     shortText: {
@@ -15,4 +15,4 @@ const advertisementSchema = new Schema({
         default: false,
     },
 })
-module.exports = model('advertisement', advertisementSchema);
+module.exports = model('advertisement', advertisementSchema);*/
