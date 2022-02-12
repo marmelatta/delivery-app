@@ -55,49 +55,7 @@ app.use(expressSession({
 app.use(passport.initialize(undefined));
 app.use(passport.session(undefined));
 
-//запросы
-app.get('',
-    function (req, res) {
-    console.log('после аутентификации переходит сюда')
-        res.json({user: req.user})
-    })
 
-app.get('/login',
-    function (req, res) {
-        res.json('login')
-    })
-
-app.post('/login',
-    passport.authenticate(
-        'local',
-        {
-            failureRedirect: '/login',
-        },
-    ),
-    function (req, res) {
-        console.log("req.user: ", req.user.toString())
-        res.redirect('/')
-    })
-
-app.get('/logout',
-    function (req, res) {
-        req.logout()
-        res.json(`dllsdluu`)
-    })
-
-app.get('/profile',
-    function (req, res, next) {
-        if (!req.isAuthenticated || !req.isAuthenticated()) {
-            if (req.session) {
-                req.session.returnTo = req.originalUrl || req.url
-            }
-            return res.redirect('/login')
-        }
-        next()
-    },
-    function (req, res) {
-        return res.json({ user: req.user })
-    })
 
 app.use('/', indexRouter);
 app.use('/public', express.static(__dirname + '/public'));
