@@ -7,6 +7,9 @@ const advertisementSchema = new Schema({
     description: {
         type: String,
     },
+    images: {
+      type: String,  
+    },
     isDeleted: {
         type: Boolean,
         default: false,

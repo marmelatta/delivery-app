@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', indexRouter);
-app.use('/api', advertisementRouter);
+app.use('/public', express.static(__dirname + '/public'));
+app.use('/api/advertisements', advertisementRouter);
 
 const PORT = process.env.port || 3000;
 app.listen(PORT,  () => {

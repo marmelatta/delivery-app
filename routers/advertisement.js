@@ -50,4 +50,36 @@ router.delete('/delete', async (req, res) => {
     res.json(`Hello delete ${id}`);
 })
 
+//загрузка картинок
+router.post('/:id/upload-img', fileMiddleware.single('cover-img'), async (req, res) => {
+    const {id} = req.params;
+    try {
+        await Advertisement.findByIdAndUpdate(id,  {images: req.file.filename});
+        const {path} = req.file;
+        res.json(path);
+    }
+    catch (e) {
+        console.error(e);
+        res.json(null);
+    }
+})
+
+router.get('/:id/upload-img', async (req, res) => {
+    const {id} = req.params;
+    try {
+        const advertisement = await Advertisement.findById(id,  'fileAdvertisement');
+        const fileName = advertisement.res.images;
+        res.download(__dirname + '/../public' + fileName, 'cover.png', err => {
+            if (err) {
+                res.status(404).json();
+            }
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.status(404);
+        res.json("");
+    }
+})
+
 module.exports = router;
