@@ -8,7 +8,7 @@ const advertisementSchema = new Schema({
         type: String,
     },
     images: {
-      type: String,  
+      type: [String],  
     },
     isDeleted: {
         type: Boolean,

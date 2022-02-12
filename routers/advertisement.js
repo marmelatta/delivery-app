@@ -54,7 +54,7 @@ router.delete('/delete', async (req, res) => {
 router.post('/:id/upload-img', fileMiddleware.single('cover-img'), async (req, res) => {
     const {id} = req.params;
     try {
-        await Advertisement.findByIdAndUpdate(id,  {images: req.file.filename});
+        await Advertisement.findByIdAndUpdate(id,  {$push: {images: req.file.filename}});
         const {path} = req.file;
         res.json(path);
     }
@@ -64,10 +64,11 @@ router.post('/:id/upload-img', fileMiddleware.single('cover-img'), async (req, r
     }
 })
 
+//todo: отрефакторить
 router.get('/:id/upload-img', async (req, res) => {
     const {id} = req.params;
     try {
-        const advertisement = await Advertisement.findById(id,  'fileAdvertisement');
+        const advertisement = await Advertisement.findById(id,  'images');
         const fileName = advertisement.res.images;
         res.download(__dirname + '/../public' + fileName, 'cover.png', err => {
             if (err) {
