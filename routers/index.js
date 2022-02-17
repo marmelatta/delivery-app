@@ -12,16 +12,16 @@ router.get('',
         res.json({user: req.user})
     })
 
-router.get('/login',
+router.get('/signin',
     function (req, res) {
         res.json('login')
     })
 
-router.post('/login',
+router.post('/signin',
     passport.authenticate(
         'local',
         {
-            failureRedirect: '/login',
+            failureRedirect: '/signin',
         },
     ),
     function (req, res) {

@@ -1,4 +1,4 @@
-const {Schema, model, ObjectId, models} = require('mongoose');
+const {Schema, model, ObjectId} = require('mongoose');
 
 const chatSchema = new Schema({
     users: {
@@ -7,9 +7,10 @@ const chatSchema = new Schema({
     createAt: {
         type: Date,
     },
-    /*messages: {
-        type: [Message]
-    },*/
+    messages: {
+        type: [ObjectId],
+        ref: 'Message'
+    },
 })
 
 module.exports = model('Chat', chatSchema)
