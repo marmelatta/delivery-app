@@ -51,6 +51,7 @@ router.delete('/delete', async (req, res) => {
 })
 
 //загрузка картинок
+/*
 router.post('/:id/upload-img', fileMiddleware.single('cover-img'), async (req, res) => {
     const {id} = req.params;
     try {
@@ -80,6 +81,6 @@ router.get('/:id/upload-img', async (req, res) => {
         res.status(404);
         res.json("");
     }
-})
+})*/
 
 module.exports = router;
