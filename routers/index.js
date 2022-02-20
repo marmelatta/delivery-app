@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const User = require('../models/User')
+let bcrypt = require('bcrypt');
+
 
 router.get('/', (req, res) => {
     res.json('hello');
@@ -25,7 +28,7 @@ router.post('/signin',
         },
     ),
     function (req, res) {
-        console.log("req.user: ", req.user.toString())
+        console.log("req.user: ", req.email.toString())
         res.redirect('/')
     })
 
@@ -48,5 +51,24 @@ router.get('/profile',
     function (req, res) {
         return res.json({ user: req.user })
     })
+
+router.post('/signup',
+    async (req, res, next) => {
+        const {email, password, name, contactPhone} = req.body;
+        let user = await User.findOne({email: email})
+        if (user) {
+            return res.json("email занят")
+        }
+        
+        let newUser = await User.create({
+            email,
+            passwordHash: bcrypt.hashSync(password, 10), // hash the password early
+            name: name, 
+            contactPhone: contactPhone,
+        })
+
+        return res.json(newUser);
+
+    });
 
 module.exports = router;
