@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Advertisement = require('../models/Advertisement')
 
-/*router.get('/', async (req,  res) => {
+router.get('/', async (req,  res) => {
     const {shortText, description} = req.body;
     const advertisements = await Advertisement.find({
         shortText,
@@ -64,7 +64,6 @@ router.post('/:id/upload-img', fileMiddleware.single('cover-img'), async (req, r
     }
 })
 
-//todo: отрефакторить
 router.get('/:id/upload-img', async (req, res) => {
     const {id} = req.params;
     try {
@@ -81,6 +80,6 @@ router.get('/:id/upload-img', async (req, res) => {
         res.status(404);
         res.json("");
     }
-})*/
+})
 
 module.exports = router;
