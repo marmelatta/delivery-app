@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
-const db = require('./models')
 const User = require('./models/User')
 let bcrypt = require('bcrypt');
 
@@ -14,25 +13,34 @@ const http = require("http");
 const mongoose = require("mongoose");
 
 async function verify (email, password, done) {
-    db.users.findByUsername(email,  function (err, user) {
-        if (err) { return done(err) }
-        if (!user) {return done(null, false) }
-
-        let passwordValid = user && bcrypt.compareSync(password, user.passwordHash)
-
-        // If password valid call done and serialize user.id to req.user property
-        if (passwordValid) {
-            return done(null, user)
-        }
-        // If invalid call done with false and flash message
-        return done(null, false, {
-            message: 'Invalid email and/or password'
-        });
-    })
+    User.findOne({email: email})
+        .then(
+            user => {
+                console.log('login...', user)
+                if (user) {
+                    bcrypt.compare(password,
+                        user.passwordHash,
+                        (err, isMatch) => {
+                            console.log('err', err)
+                            console.log('isMatch',isMatch)
+                            if (err) throw err;
+                        
+                            if (isMatch) {
+                                return done(null, user);
+                            } else {
+                                return done(null, false, {message: "Wrong passport"});
+                            }
+                        })
+                } 
+            }
+        )
+        .catch(err => {
+            return done(null, false, {message: err});
+        })
 }
 
 const options = {
-    emailFiled: 'email',
+    usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: false,
 }

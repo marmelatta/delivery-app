@@ -20,17 +20,21 @@ router.get('/signin',
         res.json('login')
     })
 
-router.post('/signin',
-    passport.authenticate(
-        'local',
-        {
-            failureRedirect: '/signin',
-        },
-    ),
-    function (req, res) {
-        console.log("req.user: ", req.email.toString())
-        res.redirect('/')
-    })
+router.post('/signin', (req, res, next) => {
+   passport.authenticate("local", function (err, user, info) {
+       console.log('user controller', user)
+       console.log('error controller', err)
+       if (err) {
+           return res.status(400).json({errors: err});
+       } 
+       req.logIn(user,  function (err) {
+           if (err) {
+               return res.status(400).json({errors: err});
+           }
+           return res.status(200).json({success: `logged in ${user.id}`});
+       });
+    }) (req, res, next); 
+});
 
 router.get('/logout',
     function (req, res) {
