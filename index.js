@@ -21,8 +21,6 @@ async function verify (email, password, done) {
                     bcrypt.compare(password,
                         user.passwordHash,
                         (err, isMatch) => {
-                            console.log('err', err)
-                            console.log('isMatch',isMatch)
                             if (err) throw err;
                         
                             if (isMatch) {
@@ -54,10 +52,6 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(async function (id, cb) {
     const user = await User.findById(id);
     cb(null, user);
-    /*db.users.findById(id,  function (err, user) {
-        if (err) {return cb(err) }
-        
-    })*/
 })
 
 const app = express();
